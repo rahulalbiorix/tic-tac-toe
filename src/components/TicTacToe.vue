@@ -7,6 +7,7 @@ const gameover = ref(false);
 const currentPlayer = ref("X");
 const player = ref<string | null>(null);
 const undoStack = reactive<number[][]>([]);
+const winningClass = ref<string>('')
 
 let board = reactive([
   ["", "", ""],
@@ -32,15 +33,39 @@ const checkTie = () => {
 
 const checkWin = () => {
   const a = currentPlayer.value;
-
   for (let i = 0; i < 3; i++) {
-    if (board[i].every((cell) => cell === a)) return true;
-    if (board.every((row) => row[i] === a)) return true;
+    if (board[i].every((cell) => cell === a)) {
+      if (i === 0) {
+        winningClass.value = 'vertical-start'
+      } else if (i === 1) {
+        winningClass.value = 'vertical-middle'
+      } else {
+        winningClass.value = 'vertical-end'
+      }
+      return true;
+    }
+
+    if (board.every((row) => row[i] === a)) {
+      if (i === 0) {
+        winningClass.value = 'horizontal-top'
+      } else if (i === 1) {
+        winningClass.value = 'horizontal-middle'
+      } else {
+        winningClass.value = 'horizontal-bottom'
+      }
+
+      return true;
+    }
   }
 
-  if (board[0][0] === a && board[1][1] === a && board[2][2] === a) return true;
-  if (board[0][2] === a && board[1][1] === a && board[2][0] === a) return true;
-
+  if (board[0][0] === a && board[1][1] === a && board[2][2] === a) {
+    winningClass.value = 'diagonal-top-left'
+    return true;
+  }
+  if (board[0][2] === a && board[1][1] === a && board[2][0] === a) {
+    winningClass.value = 'diagonal-top-right'
+    return true;
+  }
   return false;
 };
 
@@ -79,6 +104,7 @@ const play = (row: number, col: number) => {
 };
 
 const reset = () => {
+  winningClass.value = ''
   winner.value = null;
   currentPlayer.value = "X";
   gameover.value = false;
@@ -103,19 +129,18 @@ const reset = () => {
       Current Player: <span class="">{{ player }}</span> plays
       <span class=""> {{ currentPlayer }} </span>
     </p>
-    <div class="board">
-      <div class="row" v-for="(row, rowIndex) of board" :key="rowIndex">
-        <div
-          class="cell"
-          v-for="(cell, cellIndex) of row"
-          :key="cellIndex"
-          :class="{ 'cell-x': cell === 'X', 'cell-o': cell === 'O' }"
-          :disabled="cell !== null"
-          @click="play(rowIndex, cellIndex)"
-        >
-          {{ cell }}
+    <div class="inside">
+      <div class="board ">
+
+        <div class="row" v-for="(row, rowIndex) of board" :key="rowIndex">
+          <div class="cell" v-for="(cell, cellIndex) of row" :key="cellIndex"
+            :class="{ 'cell-x': cell === 'X', 'cell-o': cell === 'O' }" :disabled="cell !== null"
+            @click="play(rowIndex, cellIndex)">
+            {{ cell }}
+          </div>
         </div>
       </div>
+      <div :class="winningClass" />
     </div>
 
     <div class="control">

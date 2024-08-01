@@ -47,6 +47,9 @@ a,
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.inside {
+  position: relative;
+}
 
 .cell {
   width: 100px;
@@ -90,3 +93,83 @@ button {
   cursor: pointer;
   margin-right: 6px;
 }
+
+.inside {
+  .diagonal-top-left {
+    position: absolute;
+    width: 400px;
+    height: 0px;
+    top: 0px;
+    left: -67px;
+    border-bottom: 5px solid red;
+    transform: translateY(155px) translateX(24px) rotate(45deg);
+  }
+  .diagonal-top-right {
+    position: absolute;
+    width: 400px;
+    height: 0;
+    top: 0;
+    border-bottom: 5px solid red;
+    transform: translateY(155px) translateX(97px) rotate(-45deg);
+    left: -139px;
+  }
+  .horizontal-top {
+    position: absolute;
+    width: 280px;
+    height: 0;
+    top: 50px;
+    left: 15px;
+    border-bottom: 5px solid red;
+  }
+  .horizontal-middle {
+    position: absolute;
+    width: 280px;
+    height: 0;
+    top: 50%;
+    left: 15px;
+    border-bottom: 5px solid red;
+  }
+  .horizontal-bottom {
+    position: absolute;
+    width: 280px;
+    height: 0;
+    bottom: 50px;
+    left: 15px;
+    border-bottom: 5px solid red;
+  }
+  .vertical-start {
+    position: absolute;
+    width: 0;
+    height: 280px;
+    top: 15px;
+    left: 50px;
+    border-right: 5px solid red;
+  }
+  .vertical-middle {
+    position: absolute;
+    width: 0;
+    height: 280px;
+    top: 15px;
+    left: 50%;
+    border-right: 5px solid red;
+  }
+  .vertical-end {
+    position: absolute;
+    width: 0;
+    height: 280px;
+    top: 15px;
+    right: 50px;
+    border-right: 5px solid red;
+  }
+}
+
+/* .inside .diagonal-top-left {
+  position: absolute;
+  width: 400px;
+  height: 0px;
+  top: 0px;
+  left: -67px;
+  border-bottom: 5px solid red;
+  transform: translateY(155px) translateX(24px) rotate(45deg);
+}
+.inside  */
